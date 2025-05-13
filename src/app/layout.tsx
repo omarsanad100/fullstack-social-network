@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "../components/theme/theme-provider";
+import "./globals.css";
+import Navbar from "@/components/navbar/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,8 +29,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
+        {/* This is the root layout for the app and the main container. It wraps all pages and components.*/}
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-800
+           bg-background font-sans dark:bg-gradient-to-r from-[#141e30] to-[#243b55] dark:text-gray-200`}
         >
           <ThemeProvider
             attribute="class"
@@ -37,7 +40,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {/* This is the root layout */}
+            <Navbar />
+            {/*This `children` renders the page.tsx(general route), This is where the page content will be rendered */}
             {children}
           </ThemeProvider>
         </body>

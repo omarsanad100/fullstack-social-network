@@ -8,17 +8,17 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import ModeToggleButton from "@/components/ModeToggleButton";
+import ModeToggleButton from "../components/theme/ModeToggleButton";
 
 const Page = () => {
   return (
     <div className="flex items-center gap-4">
       <SignedOut>
         <SignInButton mode="modal">
-          <Button variant="outline">Sign In</Button>
+          <Button>Sign In</Button>
         </SignInButton>
         <SignUpButton mode="modal">
-          <Button variant="secondary">Sign Up</Button>
+          <Button>Sign Up</Button>
         </SignUpButton>
       </SignedOut>
 

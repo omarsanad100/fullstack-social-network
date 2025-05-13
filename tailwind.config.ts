@@ -8,10 +8,7 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-  	extend: {   backgroundImage: {
-        'light-gradient': 'linear-gradient(to right, #f8fafc, #e2e8f0)', // light gradient
-        'dark-gradient': 'linear-gradient(to right, #0f172a, #1e293b)',   // dark gradient
-      },
+  	extend: {  
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
