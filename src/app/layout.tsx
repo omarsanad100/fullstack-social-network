@@ -40,9 +40,19 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Navbar />
+            <div className="min-h-screen">
+              <Navbar />
+              <main className="py-8 ">
+                {/* Container to center the content */}
+                <div className="max-w-7xl max-auto px-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div className="hidden lg:block lg:col-span-3">Sidebar</div>
+                  </div>
+                  <div className="lg:col-span-9">{children}</div>
+                </div>
+              </main>
+            </div>
             {/*This `children` renders the page.tsx(general route), This is where the page content will be rendered */}
-            {children}
           </ThemeProvider>
         </body>
       </html>
