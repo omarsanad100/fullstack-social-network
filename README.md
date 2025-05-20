@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Social Network App – Tech Stack Overview
 
-## Getting Started
+## 🧰 Core Technologies
 
-First, run the development server:
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Styling**: TailwindCSS + Shadcn
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Authentication**: Clerk
+- **File Uploads**: UploadThing
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🧩 App Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. Frontend
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Built with **Next.js Client Components**
+- Styled using **TailwindCSS** and **Shadcn UI**
+- Includes pages like:
+  - Feed
+  - Profile
+  - Post Details
+- Special files used:
+  - `loading.tsx`
+  - `error.tsx`
+  - `not-found.tsx`
 
-## Learn More
+### 2. API & Backend Logic
 
-To learn more about Next.js, take a look at the following resources:
+- **Route Handlers** in `app/api/*` for API endpoints
+- **Server Actions** used in forms to perform DB mutations
+- Implements **optimistic updates** for better UX
+- Handles integration with third-party services
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 3. Authentication & Authorization
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Handled using **Clerk**
+- Middleware used to protect private routes
+- Supports session management and role-based access
 
-## Deploy on Vercel
+### 4. Database Layer
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Prisma ORM** maps models to PostgreSQL
+- Models include:
+  - Users
+  - Posts
+  - Comments
+  - Likes
+  - Follows
+- Fully relational schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## ✅ Key Features
+
+- **Server Components**: For improved performance and SEO
+- **Dynamic & Static Routes**: Pages for users, posts, etc.
+- **Data Fetching**: Uses caching and revalidation
+- **Optimistic UI**: Instant feedback for user actions
+- **File Uploads**: Integrated using UploadThing
+
+---
+
+## 🛠 Recommended Folder Structure (Simplified)

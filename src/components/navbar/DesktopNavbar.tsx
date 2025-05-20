@@ -9,7 +9,7 @@ const DesktopNavbar = async () => {
   // Fetch user data on the server side
   const user = await currentUser();
   // Check if user is authenticated
-  console.log("user", user);
+  // console.log("user", user); // User data for debugging if signedIn successfully
 
   return (
     <div className="hidden md:flex items-center space-x-4">
