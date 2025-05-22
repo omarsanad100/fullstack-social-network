@@ -2,8 +2,7 @@
 import prisma from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
-// This Fn is used to sync the user with the database
-// It will create a new user if it does not exist and It will update the user if it exists
+// I've created this Fn to use to sync user with database
 export const syncUser = async () => {
   try {
     // Get the userId from the auth object
@@ -21,7 +20,10 @@ export const syncUser = async () => {
         clerkId: userId,
       },
     });
-    existingUser ? existingUser : "Not Exists";
+
+    if (existingUser) {
+      return existingUser;
+    }
 
     // Create a new user if it does not exist
     const databaseUser = await prisma.user.create({
