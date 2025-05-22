@@ -8,7 +8,7 @@ import { syncUser } from "@/actions/user.action";
 const Navbar = async () => {
   // Save user in database if not exists and update the user if it exists
   const user = await currentUser();
-  user ? await syncUser() : null;
+  user ? await syncUser() : null; // Sync user with the database
   // console.log("user saved in database", user); // debugging
 
   return (
