@@ -1,4 +1,4 @@
-" use server";
+"use server";
 import prisma from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
 
@@ -41,4 +41,21 @@ export const syncUser = async () => {
   } catch (error) {
     console.error("Error syncing user:", error);
   }
+};
+
+export const getUserByClerkId = async (clerkId: string) => {
+  return prisma.user.findUnique({
+    where: {
+      clerkId,
+    },
+    include: {
+      _count: {
+        select: {
+          followers: true,
+          following: true,
+          posts: true,
+        },
+      },
+    },
+  });
 };
