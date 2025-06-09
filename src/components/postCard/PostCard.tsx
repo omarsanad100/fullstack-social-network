@@ -41,7 +41,7 @@ const PostCard = ({
   const [hasLiked, setHasLiked] = useState(
     post.likes.some((like) => like.userId === dbUserId)
   );
-  const [optimisticLikes, setOptmisticLikes] = useState(post._count.likes);
+  const [optimisticLikes, setOptimisticLikes] = useState(post._count.likes);
   const [showComments, setShowComments] = useState(false);
 
   const handleLike = async () => {
@@ -49,10 +49,10 @@ const PostCard = ({
     try {
       setIsLiking(true);
       setHasLiked((prev) => !prev);
-      setOptmisticLikes((prev) => prev + (hasLiked ? -1 : 1));
+      setOptimisticLikes((prev) => prev + (hasLiked ? -1 : 1));
       await toggleLike(post.id);
     } catch (error) {
-      setOptmisticLikes(post._count.likes);
+      setOptimisticLikes(post._count.likes);
       setHasLiked(post.likes.some((like) => like.userId === dbUserId));
     } finally {
       setIsLiking(false);
@@ -63,10 +63,15 @@ const PostCard = ({
     if (!newComment.trim() || isCommenting) return;
     try {
       setIsCommenting(true);
-      const result = await createComment(post.id, newComment);
+      const result = await createComment({
+        postId: post.id,
+        content: newComment,
+      });
       if (result?.success) {
         toast.success("Comment posted successfully");
         setNewComment("");
+      } else {
+        toast.error(result?.error || "Failed to add comment");
       }
     } catch (error) {
       toast.error("Failed to add comment");
