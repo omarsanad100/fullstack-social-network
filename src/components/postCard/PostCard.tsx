@@ -13,7 +13,7 @@ import { Card, CardContent } from "../ui/card";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { formatDistanceToNow } from "date-fns";
-import { DeleteAlertDialog } from "./DeleteAlertDialog";
+import { DeleteAlertDialog } from "../deleteAlertDialog/DeleteAlertDialog";
 import { Button } from "../ui/button";
 import {
   HeartIcon,
@@ -26,7 +26,13 @@ import { Textarea } from "../ui/textarea";
 type Posts = Awaited<ReturnType<typeof getPosts>>;
 type Post = Posts[number];
 
-function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
+const PostCard = ({
+  post,
+  dbUserId,
+}: {
+  post: Post;
+  dbUserId: string | null;
+}) => {
   const { user } = useUser();
   const [newComment, setNewComment] = useState("");
   const [isCommenting, setIsCommenting] = useState(false);
@@ -265,5 +271,5 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
       </CardContent>
     </Card>
   );
-}
+};
 export default PostCard;
