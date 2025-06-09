@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export function NotificationsSkeleton() {
+export const NotificationSkeleton = () => {
   // array of 5 items
   const skeletonItems = Array.from({ length: 5 }, (_, i) => i);
 
@@ -37,4 +37,4 @@ export function NotificationsSkeleton() {
       </Card>
     </div>
   );
-}
+};
