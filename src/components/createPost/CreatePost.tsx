@@ -6,10 +6,10 @@ import { Card, CardContent } from "../ui/card";
 import { Avatar, AvatarImage } from "../ui/avatar";
 import { Textarea } from "../ui/textarea";
 import { ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { createPost } from "@/actions/post.action";
 import toast from "react-hot-toast";
-import ImageUpload from "./ImageUpload";
+import ImageUpload from "../imageUpload/ImageUpload";
 
 const CreatePost = () => {
   const { user } = useUser();
