@@ -24,8 +24,11 @@ type AuthenticatedSidebarProps = {
 const AuthenticatedSidebar = ({ user }: AuthenticatedSidebarProps) => {
   return (
     <div
-      className="sticky top-20 antialiased text-gray-800 bg-background font-sans
-     dark:bg-gradient-to-r from-[#0e1625] to-[#243b55] dark:text-gray-200 rounded-xl"
+      className="sticky top-20 antialiased text-gray-800
+    bg-gray-50
+    dark:bg-gradient-to-r dark:from-[#070c16] dark:to-[#243b55]
+    dark:text-gray-200
+    rounded-xl"
     >
       <Card className="bg-transparent shadow-none w-full rounded-xl">
         <CardContent className="pt-6">

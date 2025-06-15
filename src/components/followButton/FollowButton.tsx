@@ -24,11 +24,11 @@ function FollowButton({ userId }: { userId: string }) {
 
   return (
     <Button
-      size={"sm"}
-      variant={"secondary"}
+      size="sm"
+      variant="secondary"
       onClick={handleFollow}
       disabled={isLoading}
-      className="w-20"
+      className="w-20 bg-black text-white hover:bg-gray-900 dark:bg-white dark:text-black dark:hover:bg-gray-200 hover:opacity-90"
     >
       {isLoading ? <Loader2Icon className="size-4 animate-spin" /> : "Follow"}
     </Button>

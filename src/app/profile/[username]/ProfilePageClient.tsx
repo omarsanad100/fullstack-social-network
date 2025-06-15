@@ -97,10 +97,16 @@ function ProfilePageClient({
   const formattedDate = format(new Date(user.createdAt), "MMMM yyyy");
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="grid grid-cols-1 gap-6">
+    <div className="max-w-3xl mx-auto ">
+      <div className="grid grid-cols-1 gap-6 ">
         <div className="w-full max-w-lg mx-auto">
-          <Card className="bg-card">
+          <Card
+            className="bg-card bg:transparent shadow-none w-full antialiased text-gray-800
+    bg-gray-50
+    dark:bg-gradient-to-r dark:from-[#070c16] dark:to-[#243b55]
+    dark:text-gray-200
+    rounded-xl"
+          >
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center">
                 <Avatar className="w-24 h-24">

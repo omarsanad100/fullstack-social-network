@@ -25,6 +25,7 @@ type Props = {
   theme: string | undefined;
   toggleTheme: () => void;
   isSignedIn: boolean;
+  username?: string | null;
 };
 
 const MobileNavbarUi = ({
@@ -34,6 +35,7 @@ const MobileNavbarUi = ({
   theme,
   toggleTheme,
   isSignedIn,
+  username,
 }: Props) => (
   <div
     className="flex md:hidden items-center space-x-2 antialiased
@@ -63,7 +65,11 @@ const MobileNavbarUi = ({
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-[300px] antialiased text-gray-800 bg-background font-sans dark:bg-gradient-to-r from-[#141e30] to-[#243b55] dark:text-gray-200"
+        className="w-[300px] antialiased text-gray-800
+    bg-gray-50
+    dark:bg-gradient-to-r dark:from-[#070c16] dark:to-[#243b55]
+    dark:text-gray-200
+    rounded-xl"
       >
         <SheetHeader>
           <SheetTitle>Menu</SheetTitle>
@@ -71,7 +77,7 @@ const MobileNavbarUi = ({
         <nav className="flex flex-col space-y-4 mt-6">
           <Button
             variant="ghost"
-            className="flex items-center gap-3 justify-start"
+            className="flex items-center gap-3 justify-start  hover:bg-gray-200"
             asChild
           >
             <Link href="/">
@@ -84,7 +90,7 @@ const MobileNavbarUi = ({
             <>
               <Button
                 variant="ghost"
-                className="flex items-center gap-3 justify-start"
+                className="flex items-center gap-3 justify-start  hover:bg-gray-200"
                 asChild
               >
                 <Link href="/notifications">
@@ -94,10 +100,10 @@ const MobileNavbarUi = ({
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-3 justify-start"
+                className="flex items-center gap-3 justify-start  hover:bg-gray-200"
                 asChild
               >
-                <Link href="/profile">
+                <Link href={username ? `/profile/${username}` : "/profile"}>
                   <UserIcon className="w-4 h-4" />
                   Profile
                 </Link>
@@ -105,7 +111,7 @@ const MobileNavbarUi = ({
               <SignOutButton>
                 <Button
                   variant="ghost"
-                  className="flex items-center gap-3 justify-start w-full"
+                  className="flex items-center gap-3 justify-start  hover:bg-gray-200 w-full"
                 >
                   <LogOutIcon className="w-4 h-4" />
                   Logout

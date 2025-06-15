@@ -1,5 +1,4 @@
 "use client";
-
 import {
   getNotifications,
   markNotificationsAsRead,
@@ -10,7 +9,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDistanceToNow } from "date-fns";
 import { HeartIcon, MessageCircleIcon, UserPlusIcon } from "lucide-react";
-
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
@@ -56,8 +54,14 @@ function NotificationsPage() {
   if (isLoading) return <NotificationSkeleton />;
 
   return (
-    <div className="space-y-4">
-      <Card>
+    <div
+      className="space-y-4 antialiased text-gray-800
+    bg-gray-50
+    dark:bg-gradient-to-r dark:from-[#070c16] dark:to-[#243b55]
+    dark:text-gray-200
+    rounded-xl"
+    >
+      <Card className="bg-transparent shadow-none w-full rounded-xl">
         <CardHeader className="border-b">
           <div className="flex items-center justify-between">
             <CardTitle>Notifications</CardTitle>

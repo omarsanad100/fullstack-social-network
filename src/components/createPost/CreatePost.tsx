@@ -9,7 +9,7 @@ import { ImageIcon, Loader2Icon, SendIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { createPost } from "@/actions/post.action";
 import toast from "react-hot-toast";
-import ImageUpload from "../imageUpload/ImageUpload";
+// import ImageUpload from "../imageUpload/ImageUpload";
 
 const CreatePost = () => {
   const { user } = useUser();
@@ -41,23 +41,30 @@ const CreatePost = () => {
   };
 
   return (
-    <Card className="mb-6">
-      <CardContent className="pt-6">
-        <div className="space-y-4">
-          <div className="flex space-x-4">
-            <Avatar className="w-10 h-10">
-              <AvatarImage src={user?.imageUrl || "/avatar.png"} />
-            </Avatar>
-            <Textarea
-              placeholder="What's on your mind?"
-              className="min-h-[100px] resize-none border-none focus-visible:ring-0 p-0 text-base"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              disabled={isPosting}
-            />
-          </div>
+    <div
+      className=" antialiased text-gray-800
+    bg-gray-50
+    dark:bg-gradient-to-r dark:from-[#070c16] dark:to-[#243b55]
+    dark:text-gray-200
+    rounded-xl"
+    >
+      <Card className="mb-6 bg-transparent shadow-none w-full rounded-xl">
+        <CardContent className="pt-6">
+          <div className="space-y-4">
+            <div className="flex space-x-4">
+              <Avatar className="w-10 h-10">
+                <AvatarImage src={user?.imageUrl || "/avatar.png"} />
+              </Avatar>
+              <Textarea
+                placeholder="What's on your mind?"
+                className="min-h-[100px] resize-none border-none focus-visible:ring-0 p-0 text-base"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                disabled={isPosting}
+              />
+            </div>
 
-          {(showImageUpload || imageUrl) && (
+            {/* {(showImageUpload || imageUrl) && (
             <div className="border rounded-lg p-4">
               <ImageUpload
                 endpoint="postImage"
@@ -68,43 +75,44 @@ const CreatePost = () => {
                 }}
               />
             </div>
-          )}
+          )} */}
 
-          <div className="flex items-center justify-between border-t pt-4">
-            <div className="flex space-x-2">
+            <div className="flex items-center justify-between border-t pt-4">
+              <div className="flex space-x-2">
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-primary"
+                  onClick={() => setShowImageUpload(!showImageUpload)}
+                  disabled={isPosting}
+                >
+                  <ImageIcon className="size-4 mr-2" />
+                  Photo
+                </Button>
+              </div>
               <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="text-muted-foreground hover:text-primary"
-                onClick={() => setShowImageUpload(!showImageUpload)}
-                disabled={isPosting}
+                className="flex items-center"
+                onClick={handleSubmit}
+                disabled={(!content.trim() && !imageUrl) || isPosting}
               >
-                <ImageIcon className="size-4 mr-2" />
-                Photo
+                {isPosting ? (
+                  <>
+                    <Loader2Icon className="size-4 mr-2 animate-spin" />
+                    Posting...
+                  </>
+                ) : (
+                  <>
+                    <SendIcon className="size-4 mr-2" />
+                    Post
+                  </>
+                )}
               </Button>
             </div>
-            <Button
-              className="flex items-center"
-              onClick={handleSubmit}
-              disabled={(!content.trim() && !imageUrl) || isPosting}
-            >
-              {isPosting ? (
-                <>
-                  <Loader2Icon className="size-4 mr-2 animate-spin" />
-                  Posting...
-                </>
-              ) : (
-                <>
-                  <SendIcon className="size-4 mr-2" />
-                  Post
-                </>
-              )}
-            </Button>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

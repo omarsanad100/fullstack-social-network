@@ -12,7 +12,7 @@ const DesktopNavbar = async () => {
   // console.log("user", user); // User data for debugging if signedIn successfully
 
   return (
-    <div className="hidden md:flex items-center space-x-4">
+    <div className="hidden md:flex items-center space-x-4 ">
       <ModeToggleButton />
       <Button variant="ghost" className="flex items-center gap-2" asChild>
         <Link href="/">

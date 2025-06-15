@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useAuth } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
 import { useTheme } from "next-themes";
 import MobileNavbarUi from "./MobileNavbarUi";
 
@@ -15,9 +15,14 @@ function MobileNavbar() {
 
   const { isSignedIn } = useAuth();
   const { theme, setTheme } = useTheme();
+  const { user } = useUser();
+
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
   };
+
+  const username =
+    user?.username ?? user?.emailAddresses?.[0]?.emailAddress?.split("@")[0];
 
   return (
     <MobileNavbarUi
@@ -27,6 +32,7 @@ function MobileNavbar() {
       theme={theme}
       toggleTheme={toggleTheme}
       isSignedIn={isSignedIn ?? false}
+      username={username}
     />
   );
 }

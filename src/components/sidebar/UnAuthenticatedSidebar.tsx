@@ -3,7 +3,13 @@ import { Button } from "@/components/ui/button";
 import { SignInButton, SignUpButton } from "@clerk/nextjs";
 
 const UnAuthenticatedSidebar = () => (
-  <div className="sticky top-20 antialiased text-gray-800 bg-background font-sans dark:bg-gradient-to-r from-[#141e30] to-[#243b55] dark:text-gray-200 rounded-xl">
+  <div
+    className="sticky top-20 antialiased text-gray-800
+    bg-gray-50
+    dark:bg-gradient-to-r dark:from-[#070c16] dark:to-[#243b55]
+    dark:text-gray-200
+    rounded-xl"
+  >
     <Card className="bg-transparent shadow-none w-full">
       <CardHeader>
         <CardTitle className="text-center text-xl font-semibold">

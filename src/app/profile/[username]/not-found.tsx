@@ -5,8 +5,12 @@ import { HomeIcon, ArrowLeftIcon } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <div className="min-h-[80vh] grid place-items-center px-4">
-      <Card className="w-full max-w-md">
+    <div
+      className="min-h-[80vh] grid place-items-center px-4  antialiased text-gray-800
+               bg-gray-50
+ dark:bg-gradient-to-r from-[#141e30] to-[#243b55] dark:text-gray-200"
+    >
+      <Card className="w-full max-w-md bg-transparent shadow-none rounded-xl ">
         <CardContent className="pt-6">
           <div className="text-center space-y-6">
             {/* LARGE 404 TEXT */}
@@ -24,14 +28,7 @@ export default function NotFound() {
 
             {/* ACTION BUTTONS */}
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button variant="default" asChild>
-                <Link href="/">
-                  <HomeIcon className="mr-2 size-4" />
-                  Back to Home
-                </Link>
-              </Button>
-
-              <Button variant="outline" asChild>
+              <Button className="" variant="outline" asChild>
                 <Link href="/">
                   <ArrowLeftIcon className="mr-2 size-4" />
                   Home

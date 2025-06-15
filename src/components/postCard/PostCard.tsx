@@ -95,8 +95,14 @@ const PostCard = ({
   };
 
   return (
-    <Card className="overflow-hidden">
-      <CardContent className="p-4 sm:p-6">
+    <Card
+      className="overflow-hidden antialiased text-gray-800
+    bg-gray-50
+    dark:bg-gradient-to-r dark:from-[#070c16] dark:to-[#243b55]
+    dark:text-gray-200
+    rounded-xl"
+    >
+      <CardContent className="p-4 sm:p-6 bg-transparent shadow-none w-full rounded-xl">
         <div className="space-y-4">
           <div className="flex space-x-3 sm:space-x-4">
             <Link href={`/profile/${post.author.username}`}>
