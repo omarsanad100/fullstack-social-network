@@ -77,7 +77,7 @@ const MobileNavbarUi = ({
         <nav className="flex flex-col space-y-4 mt-6">
           <Button
             variant="ghost"
-            className="flex items-center gap-3 justify-start  hover:bg-gray-200"
+            className="flex items-center gap-3 justify-start  hover:bg-gray-200 dark:hover:bg-gray-600"
             asChild
           >
             <Link href="/">
@@ -90,7 +90,7 @@ const MobileNavbarUi = ({
             <>
               <Button
                 variant="ghost"
-                className="flex items-center gap-3 justify-start  hover:bg-gray-200"
+                className="flex items-center gap-3 justify-start  hover:bg-gray-200 dark:hover:bg-gray-600"
                 asChild
               >
                 <Link href="/notifications">
@@ -100,7 +100,7 @@ const MobileNavbarUi = ({
               </Button>
               <Button
                 variant="ghost"
-                className="flex items-center gap-3 justify-start  hover:bg-gray-200"
+                className="flex items-center gap-3 justify-start  hover:bg-gray-200 dark:hover:bg-gray-600"
                 asChild
               >
                 <Link href={username ? `/profile/${username}` : "/profile"}>
@@ -111,7 +111,7 @@ const MobileNavbarUi = ({
               <SignOutButton>
                 <Button
                   variant="ghost"
-                  className="flex items-center gap-3 justify-start  hover:bg-gray-200 w-full"
+                  className="flex items-center gap-3 justify-start  hover:bg-gray-200 dark:hover:bg-gray-600 w-full"
                 >
                   <LogOutIcon className="w-4 h-4" />
                   Logout

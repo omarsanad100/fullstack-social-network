@@ -34,7 +34,7 @@ export default function RootLayout({
         {/* This is the root layout for the app and the main container. It wraps all pages and components.*/}
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased text-gray-800
-           bg-background font-sans dark:bg-gradient-to-r from-[#141e30] to-[#243b55] dark:text-gray-200`}
+           bg-background font-sans dark:bg-gradient-to-r from-[#1a263d] to-[#304c6d] dark:text-gray-200`}
         >
           <ThemeProvider
             attribute="class"

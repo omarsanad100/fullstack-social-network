@@ -14,21 +14,33 @@ const DesktopNavbar = async () => {
   return (
     <div className="hidden md:flex items-center space-x-4 ">
       <ModeToggleButton />
-      <Button variant="ghost" className="flex items-center gap-2" asChild>
+      <Button
+        variant="ghost"
+        className="flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-600"
+        asChild
+      >
         <Link href="/">
           <HomeIcon className="w-4 h-4" />
-          <span className="hidden lg:inline">Home</span>
+          <span className="hidden lg:inline ">Home</span>
         </Link>
       </Button>
       {user ? (
         <>
-          <Button variant="ghost" className="flex items-center gap-2" asChild>
+          <Button
+            variant="ghost"
+            className="flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-600"
+            asChild
+          >
             <Link href="/notifications">
               <BellIcon className="w-4 h-4" />
               <span className="hidden lg:inline">Notifications</span>
             </Link>
           </Button>
-          <Button variant="ghost" className="flex items-center gap-2" asChild>
+          <Button
+            variant="ghost"
+            className="flex items-center gap-2 hover:bg-gray-200 dark:hover:bg-gray-600"
+            asChild
+          >
             <Link
               href={`/profile/${
                 user.username ??
