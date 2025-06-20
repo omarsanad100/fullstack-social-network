@@ -21,6 +21,10 @@ function MobileNavbar() {
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
+  const closeMobileMenu = () => {
+    setShowMobileMenu(false);
+  };
+
   const username =
     user?.username ?? user?.emailAddresses?.[0]?.emailAddress?.split("@")[0];
 
@@ -33,6 +37,7 @@ function MobileNavbar() {
       toggleTheme={toggleTheme}
       isSignedIn={isSignedIn ?? false}
       username={username}
+      closeMobileMenu={closeMobileMenu}
     />
   );
 }

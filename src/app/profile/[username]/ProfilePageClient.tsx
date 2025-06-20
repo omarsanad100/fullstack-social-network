@@ -32,7 +32,7 @@ import {
   LinkIcon,
   MapPinIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 
 type User = Awaited<ReturnType<typeof getProfileByUsername>>;
@@ -62,6 +62,27 @@ function ProfilePageClient({
     location: user.location || "",
     website: user.website || "",
   });
+
+  // Fetch the DB user ID based on the Clerk user ID
+  // This is used to associate the profile with the correct user in the database
+  const [dbUserId, setDbUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDbUserId = async () => {
+      if (!currentUser) return;
+      try {
+        const response = await fetch(
+          `/api/db-user-id?clerkId=${currentUser.id}`
+        );
+        if (!response.ok) throw new Error("Failed to fetch user ID");
+        const data = await response.json();
+        setDbUserId(data.id);
+      } catch (error) {
+        console.error("Error fetching DB user ID:", error);
+      }
+    };
+    fetchDbUserId();
+  }, [currentUser]);
 
   const handleEditSubmit = async () => {
     const formData = new FormData();
@@ -231,7 +252,7 @@ function ProfilePageClient({
             <div className="space-y-6">
               {posts.length > 0 ? (
                 posts.map((post) => (
-                  <PostCard key={post.id} post={post} dbUserId={user.id} />
+                  <PostCard key={post.id} post={post} dbUserId={dbUserId} />
                 ))
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
@@ -245,7 +266,7 @@ function ProfilePageClient({
             <div className="space-y-6">
               {likedPosts.length > 0 ? (
                 likedPosts.map((post) => (
-                  <PostCard key={post.id} post={post} dbUserId={user.id} />
+                  <PostCard key={post.id} post={post} dbUserId={dbUserId} />
                 ))
               ) : (
                 <div className="text-center py-8 text-muted-foreground">

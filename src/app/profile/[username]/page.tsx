@@ -1,10 +1,11 @@
+import { auth } from "@clerk/nextjs/server";
 import {
   getProfileByUsername,
   getUserLikedPosts,
   getUserPosts,
   isFollowing,
 } from "@/actions/profile.action";
-import { notFound } from "next/navigation";
+import { redirect, notFound } from "next/navigation";
 import ProfilePageClient from "./ProfilePageClient";
 
 type ProfilePageParams = {
@@ -22,9 +23,12 @@ export const generateMetadata = async ({ params }: ProfilePageParams) => {
 };
 
 const ProfilePageServer = async ({ params }: ProfilePageParams) => {
+  const { userId } = await auth();
+  if (!userId) redirect("/sign-in");
+
   const user = await getProfileByUsername(params.username);
 
-  if (!user) notFound();
+  if (!user) return notFound();
 
   const [posts, likedPosts, isCurrentUserFollowing] = await Promise.all([
     getUserPosts(user.id),

@@ -26,10 +26,12 @@ type Props = {
   toggleTheme: () => void;
   isSignedIn: boolean;
   username?: string | null;
+  closeMobileMenu: () => void;
 };
 
 const MobileNavbarUi = ({
   showMobileMenu,
+  closeMobileMenu,
   setShowMobileMenu,
   mounted,
   theme,
@@ -80,7 +82,7 @@ const MobileNavbarUi = ({
             className="flex items-center gap-3 justify-start  hover:bg-gray-200 dark:hover:bg-gray-600"
             asChild
           >
-            <Link href="/">
+            <Link href="/" onClick={closeMobileMenu}>
               <HomeIcon className="w-4 h-4" />
               Home
             </Link>
@@ -93,7 +95,7 @@ const MobileNavbarUi = ({
                 className="flex items-center gap-3 justify-start  hover:bg-gray-200 dark:hover:bg-gray-600"
                 asChild
               >
-                <Link href="/notifications">
+                <Link href="/notifications" onClick={closeMobileMenu}>
                   <BellIcon className="w-4 h-4" />
                   Notifications
                 </Link>
@@ -103,13 +105,17 @@ const MobileNavbarUi = ({
                 className="flex items-center gap-3 justify-start  hover:bg-gray-200 dark:hover:bg-gray-600"
                 asChild
               >
-                <Link href={username ? `/profile/${username}` : "/profile"}>
+                <Link
+                  href={username ? `/profile/${username}` : "/profile"}
+                  onClick={closeMobileMenu}
+                >
                   <UserIcon className="w-4 h-4" />
                   Profile
                 </Link>
               </Button>
               <SignOutButton>
                 <Button
+                  onClick={closeMobileMenu}
                   variant="ghost"
                   className="flex items-center gap-3 justify-start  hover:bg-gray-200 dark:hover:bg-gray-600 w-full"
                 >
@@ -120,7 +126,11 @@ const MobileNavbarUi = ({
             </>
           ) : (
             <SignInButton mode="modal">
-              <Button variant="default" className="w-full">
+              <Button
+                variant="default"
+                className="w-full"
+                onClick={closeMobileMenu}
+              >
                 Sign In
               </Button>
             </SignInButton>
