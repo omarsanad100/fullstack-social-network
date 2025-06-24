@@ -114,7 +114,14 @@ function NotificationsPage() {
                         notification.type === "COMMENT") && (
                         <div className="pl-6 space-y-2">
                           <div className="text-sm text-muted-foreground rounded-md p-2 bg-muted/30 mt-2">
-                            <p>{notification.post.content}</p>
+                            <Link
+                              href={`/post/${notification.post.id}`}
+                              className=" text-blue-600  hover:text-blue-400"
+                            >
+                              {notification.post.content
+                                ? notification.post.content.slice(0, 50) + "..."
+                                : "View Post"}
+                            </Link>
                             {notification.post.image && (
                               <img
                                 src={notification.post.image}
