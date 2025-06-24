@@ -55,6 +55,7 @@ model Comment {
   content   String
   authorId  String
   postId    String
+  parentId  String? // <-- Add this line for nested comments
   createdAt DateTime @default(now())
 
   // Relations
@@ -62,7 +63,11 @@ model Comment {
   post          Post           @relation(fields: [postId], references: [id], onDelete: Cascade)
   notifications Notification[]
 
-  @@index([authorId, postId]) // composite index for faster queries
+  // Self-relation for nested comments
+  parent  Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
+
+  @@index([authorId, postId])
 }
 
 model Like {
