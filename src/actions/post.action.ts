@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 type CreateCommentProps = {
   postId: string;
   content: string;
+  parentId?: string;
 };
 
 type CreatePostProps = {
@@ -161,10 +162,10 @@ export const toggleLike = async (postId: string) => {
 export const createComment = async ({
   postId,
   content,
+  parentId,
 }: CreateCommentProps) => {
   try {
     const userId = await getDbUserId();
-
     if (!userId) return;
     if (!content) throw new Error("Content is required");
 
@@ -172,22 +173,43 @@ export const createComment = async ({
       where: { id: postId },
       select: { authorId: true },
     });
-
     if (!post) throw new Error("Post not found");
 
-    // Create comment and notification in a transaction
+    let parentCommentAuthorId: string | null = null;
+    if (parentId) {
+      const parentComment = await prisma.comment.findUnique({
+        where: { id: parentId },
+        select: { authorId: true },
+      });
+      parentCommentAuthorId = parentComment?.authorId ?? null;
+    }
+
+    // Create comment and notifications in a transaction
     const [comment] = await prisma.$transaction(async (tx) => {
-      // Create comment first
       const newComment = await tx.comment.create({
         data: {
           content,
           authorId: userId,
           postId,
+          parentId,
         },
       });
 
-      // Create notification if commenting on someone else's post
-      if (post.authorId !== userId) {
+      // Notify parent comment author if replying to a comment and not self
+      if (parentCommentAuthorId && parentCommentAuthorId !== userId) {
+        await tx.notification.create({
+          data: {
+            type: "COMMENT",
+            userId: parentCommentAuthorId,
+            creatorId: userId,
+            postId,
+            commentId: newComment.id,
+          },
+        });
+      }
+
+      // Notify post author if not self and not already notified as parent comment author
+      if (post.authorId !== userId && post.authorId !== parentCommentAuthorId) {
         await tx.notification.create({
           data: {
             type: "COMMENT",
