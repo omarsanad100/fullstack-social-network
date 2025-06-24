@@ -90,6 +90,46 @@ export const getPosts = async () => {
   }
 };
 
+// This function is used to display a single post in detail view in notifications section
+export const getPostById = async (id: string) => {
+  try {
+    return await prisma.post.findUnique({
+      where: { id },
+      include: {
+        author: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            image: true,
+          },
+        },
+        comments: {
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true,
+                image: true,
+                name: true,
+              },
+            },
+          },
+          orderBy: { createdAt: "asc" },
+        },
+        likes: {
+          select: { userId: true },
+        },
+        _count: {
+          select: { likes: true, comments: true },
+        },
+      },
+    });
+  } catch (error) {
+    return null;
+  }
+};
+
 // Toggle like on a post
 // This function checks if the user has already liked the post
 export const toggleLike = async (postId: string) => {
