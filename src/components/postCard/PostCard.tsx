@@ -8,7 +8,6 @@ import {
 } from "@/actions/post.action";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { useState } from "react";
-import toast from "react-hot-toast";
 import { Card, CardContent } from "../ui/card";
 import Link from "next/link";
 import { Avatar, AvatarImage } from "../ui/avatar";
@@ -44,6 +43,13 @@ const PostCard = ({
   const [optimisticLikes, setOptimisticLikes] = useState(post._count.likes);
   const [showComments, setShowComments] = useState(false);
 
+  // For reply UI
+  const [replyingTo, setReplyingTo] = useState<string | null>(null);
+  const [replyContent, setReplyContent] = useState<{ [key: string]: string }>(
+    {}
+  );
+  const [isReplying, setIsReplying] = useState<{ [key: string]: boolean }>({});
+
   const handleLike = async () => {
     if (isLiking) return;
     try {
@@ -68,27 +74,126 @@ const PostCard = ({
         content: newComment,
       });
       if (result?.success) {
-        toast.success("Comment posted successfully");
         setNewComment("");
-      } else {
-        toast.error(result?.error || "Failed to add comment");
       }
     } catch (error) {
-      toast.error("Failed to add comment");
+      // handle error if needed
     } finally {
       setIsCommenting(false);
     }
   };
+
+  // Handle reply to a comment
+  const handleAddReply = async (parentId: string) => {
+    if (!replyContent[parentId]?.trim() || isReplying[parentId]) return;
+    setIsReplying((prev) => ({ ...prev, [parentId]: true }));
+    try {
+      const result = await createComment({
+        postId: post.id,
+        content: replyContent[parentId],
+        parentId,
+      });
+      if (result?.success) {
+        setReplyContent((prev) => ({ ...prev, [parentId]: "" }));
+        setReplyingTo(null);
+      }
+    } catch (error) {
+      // handle error if needed
+    } finally {
+      setIsReplying((prev) => ({ ...prev, [parentId]: false }));
+    }
+  };
+
+  // Recursive render for nested comments
+  function renderComments(
+    comments: Post["comments"],
+    parentId: string | null = null,
+    level = 0
+  ) {
+    return comments
+      .filter((c) => c.parentId === parentId)
+      .map((comment) => (
+        <div key={comment.id} style={{ marginLeft: level * 24 }}>
+          <div className="flex space-x-3 mt-2">
+            <Avatar className="size-8 flex-shrink-0">
+              <AvatarImage src={comment.author.image ?? "/avatar.png"} />
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                <span className="font-medium text-sm">
+                  {comment.author.name}
+                </span>
+                <span className="text-sm text-muted-foreground">
+                  @{comment.author.username}
+                </span>
+                <span className="text-sm text-muted-foreground">·</span>
+                <span className="text-sm text-muted-foreground">
+                  {formatDistanceToNow(new Date(comment.createdAt))} ago
+                </span>
+              </div>
+              <p className="text-sm break-words">{comment.content}</p>
+              {user && (
+                <Button
+                  variant="link"
+                  size="sm"
+                  className="px-0 text-xs"
+                  onClick={() =>
+                    setReplyingTo((prev) =>
+                      prev === comment.id ? null : comment.id
+                    )
+                  }
+                >
+                  Reply
+                </Button>
+              )}
+              {/* Reply form */}
+              {replyingTo === comment.id && user && (
+                <div className="mt-2 flex space-x-2">
+                  <Textarea
+                    placeholder="Write a reply..."
+                    value={replyContent[comment.id] || ""}
+                    onChange={(e) =>
+                      setReplyContent((prev) => ({
+                        ...prev,
+                        [comment.id]: e.target.value,
+                      }))
+                    }
+                    className="min-h-[60px] resize-none"
+                  />
+                  <Button
+                    size="sm"
+                    onClick={() => handleAddReply(comment.id)}
+                    disabled={
+                      !replyContent[comment.id]?.trim() ||
+                      isReplying[comment.id]
+                    }
+                  >
+                    {isReplying[comment.id] ? (
+                      "Posting..."
+                    ) : (
+                      <>
+                        <SendIcon className="size-4" /> Reply
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+          {/* Render replies recursively */}
+          {renderComments(comments, comment.id, level + 1)}
+        </div>
+      ));
+  }
 
   const handleDeletePost = async () => {
     if (isDeleting) return;
     try {
       setIsDeleting(true);
       const result = await deletePost(post.id);
-      if (result.success) toast.success("Post deleted successfully");
-      else throw new Error(result.error);
+      // handle result if needed
     } catch (error) {
-      toast.error("Failed to delete post");
+      // handle error if needed
     } finally {
       setIsDeleting(false);
     }
@@ -208,33 +313,11 @@ const PostCard = ({
           {showComments && (
             <div className="space-y-4 pt-4 border-t">
               <div className="space-y-4">
-                {/* DISPLAY COMMENTS */}
-                {post.comments.map((comment) => (
-                  <div key={comment.id} className="flex space-x-3">
-                    <Avatar className="size-8 flex-shrink-0">
-                      <AvatarImage
-                        src={comment.author.image ?? "/avatar.png"}
-                      />
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                        <span className="font-medium text-sm">
-                          {comment.author.name}
-                        </span>
-                        <span className="text-sm text-muted-foreground">
-                          @{comment.author.username}
-                        </span>
-                        <span className="text-sm text-muted-foreground">·</span>
-                        <span className="text-sm text-muted-foreground">
-                          {formatDistanceToNow(new Date(comment.createdAt))} ago
-                        </span>
-                      </div>
-                      <p className="text-sm break-words">{comment.content}</p>
-                    </div>
-                  </div>
-                ))}
+                {/* DISPLAY NESTED COMMENTS */}
+                {renderComments(post.comments)}
               </div>
 
+              {/* New top-level comment form */}
               {user ? (
                 <div className="flex space-x-3">
                   <Avatar className="size-8 flex-shrink-0">
