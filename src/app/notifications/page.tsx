@@ -10,6 +10,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatDistanceToNow } from "date-fns";
 import { HeartIcon, MessageCircleIcon, UserPlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import toast from "react-hot-toast";
 
 type Notifications = Awaited<ReturnType<typeof getNotifications>>;
@@ -93,10 +94,13 @@ function NotificationsPage() {
                     <div className="flex items-center gap-2">
                       {getNotificationIcon(notification.type)}
                       <span>
-                        <span className="font-medium">
+                        <Link
+                          href={`/profile/${notification.creator.username}`}
+                          className="font-medium text-blue-600 hover:text-blue-400"
+                        >
                           {notification.creator.name ??
                             notification.creator.username}
-                        </span>{" "}
+                        </Link>{" "}
                         {notification.type === "FOLLOW"
                           ? "started following you"
                           : notification.type === "LIKE"
